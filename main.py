@@ -10,6 +10,8 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from werkzeug.utils import secure_filename
 
+from src.firebase_module import postUsers
+
 app = Flask(__name__)
 app.config['MODEL_FILE'] = 'model_cnn_new.h5'
 app.config['UPLOAD_FOLDER'] = 'static/uploads/'
@@ -93,6 +95,7 @@ def hello_world():
 def predict_route():
     if request.method == "POST":
         image = request.files["image"]
+        email_user = request.form.get('email')
         if image and allowed_file(image.filename):
             filename = secure_filename(image.filename)
             image.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
@@ -100,15 +103,41 @@ def predict_route():
 
             nik = predict_nik(image_path)
 
-            return jsonify({
+            if len(nik) < 10:
+                return jsonify({
                 "status": {
-                    "code": 200,
-                    "message": "Success predicting"
+                    "code": 400,
+                    "message": "KTP invalid!"
                 },
                 "data": {
-                    "nik": nik
+                    "nik": nik,
+                    "email": email_user
                 }
-            }), 200
+            }), 400
+
+            result_post = postUsers(email_user, '000', nik)
+
+            if result_post:
+                return jsonify({
+                    "status": {
+                        "code": 200,
+                        "message": "Success predicting"
+                    },
+                    "data": {
+                        "nik": nik,
+                        "email": email_user
+                    }
+                }), 200
+            else :
+                return jsonify({
+                    "status": {
+                        "code": 500,
+                        "message": "Something wrong"
+                    },
+                    "data": {
+                        "msg": 'ok'
+                    }
+                }), 500
         else:
             return jsonify({
                 "status": {
