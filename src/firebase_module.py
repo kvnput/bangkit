@@ -27,7 +27,7 @@ import firebase_admin
 from firebase_admin import credentials
 
 # Path to the downloaded Firebase Admin SDK JSON file
-cred = credentials.Certificate("sayang-air-be45f-firebase-adminsdk-lt8tb-c133e13118.json")
+cred = credentials.Certificate("sayang-air.json")
 
 # Initialize the Firebase Admin SDK
 default_app = firebase_admin.initialize_app(cred, {
