@@ -25,8 +25,8 @@ RUN pip install matplotlib
 RUN pip install pillow
 RUN pip install opencv-contrib-python
 RUN pip install -U Flask
-RUN pip install pip install firebase
-RUN pip install --upgrade firebase-admin
+RUN pip install firebase
+RUN pip install firebase-admin
 
 
 
