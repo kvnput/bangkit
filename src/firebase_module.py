@@ -42,10 +42,10 @@ from firebase_admin import db
 # Reference to the root of your Realtime Database
 root_ref = db.reference()
 
-def postUsers(email, user_id, nik):
+def postUsers(email, nik):
     # test
     # Example: Push data to the database
-    new_data_ref = root_ref.child('users').push({'email': email, 'nik': nik, 'user_id': user_id})
+    new_data_ref = root_ref.child('users').push({'email': email, 'nik': nik})
     # Example: Read data from the database
     snapshot = root_ref.child('users').get()
     return snapshot

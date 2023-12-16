@@ -115,7 +115,7 @@ def predict_route():
                 }
             }), 400
 
-            result_post = postUsers(email_user, '000', nik)
+            result_post = postUsers(email_user, nik)
 
             if result_post:
                 return jsonify({
