@@ -17,6 +17,8 @@ app.config['MODEL_FILE'] = 'model_cnn_new.h5'
 app.config['UPLOAD_FOLDER'] = 'static/uploads/'
 app.config['ALLOWED_EXTENSIONS'] = set(['png', 'jpg', 'jpeg'])
 
+model = tf.keras.models.load_model(app.config['MODEL_FILE'], compile=False)
+
 def allowed_file(filename):
     return '.' in filename and \
         filename.rsplit('.', 1)[1] in app.config['ALLOWED_EXTENSIONS']
@@ -73,7 +75,7 @@ def predict_nik(image):
         preprocessed_digits.append(padded_digit)
     
     # prediksi
-    model = tf.keras.models.load_model(app.config['MODEL_FILE'], compile=False)
+
     digit_nik = []
     index = 0
     for digit in preprocessed_digits:
@@ -104,17 +106,17 @@ def predict_route():
 
             nik = predict_nik(image_path)
 
-            if len(nik) < 10:
-                return jsonify({
-                "status": {
-                    "code": 400,
-                    "message": "KTP invalid!"
-                },
-                "data": {
-                    "nik": nik,
-                    "email": email_user
-                }
-            }), 400
+            # if len(nik) < 10:
+            #     return jsonify({
+            #     "status": {
+            #         "code": 400,
+            #         "message": "KTP invalid!"
+            #     },
+            #     "data": {
+            #         "nik": nik,
+            #         "email": email_user
+            #     }
+            # }), 400
 
             result_post = postUsers(email_user, nik)
 

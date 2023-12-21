@@ -19,15 +19,10 @@ RUN apt-get update && apt-get install libgl1-mesa-glx -y
 # Install production dependencies.
 RUN apt-get install ffmpeg libsm6 libxext6 -y
 RUN python -m pip install --upgrade pip
+RUN python -m pip install --user virtualenv
+RUN source myenv/Scripts/activate
 RUN pip install -r requirements.txt
-RUN pip install keras-ocr
-RUN pip install pandas
-RUN pip install matplotlib
-RUN pip install pillow
-RUN pip install opencv-contrib-python
-RUN pip install -U Flask
-RUN pip install firebase
-RUN pip install firebase-admin
+
 
 
 
